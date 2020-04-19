@@ -1,0 +1,22 @@
+import go from fs {
+	image "openllb/go.hlb"
+}
+
+fs default() {
+	build
+}
+
+fs publish() {
+	build
+	dockerPush "openllb/bridge"
+}
+
+fs build() {
+	go.build source "run" "./cmd/frontend" ""
+}
+
+fs source() {
+	local "." with option {
+		includePatterns "go.mod" "go.sum" "*.go" "cmd/frontend/*.go"
+	}
+}
